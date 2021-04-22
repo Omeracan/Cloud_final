@@ -22,7 +22,7 @@ class  addItemObject(BaseModel):
 class purchaseObject(BaseModel):
     username: str
 
-client = pymongo.MongoClient('mongodb://cloud:cloud123@docdb-2021-04-21-14-50-47.cluster-clt7czphqdta.ap-southeast-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false') 
+client = pymongo.MongoClient("mongodb://cloud:cloud123@docdb-2021-04-21-14-50-47.cluster-clt7czphqdta.ap-southeast-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false") 
 db = client["myDatabase"]
 users_db = db["users_db"]
 items_db = db["items"]
@@ -31,7 +31,7 @@ app = FastAPI()
 
 @app.post("/register")
 async def register(req_body : LoginObject):
-    users_db.insert_one({'username':req_body.username,'password':req_body.password,'transaction':{}})
+    users_db.insert_one({"username":req_body.username,"password":req_body.password,"transaction":{}})
     return {
         "statusCode":200,
         "body": "Register Successful"
@@ -40,7 +40,7 @@ async def register(req_body : LoginObject):
 
 @app.post("/login")
 async def login(req_body : LoginObject):
-    info = users_db.find_one({'username':req_body.username})
+    info = users_db.find_one({"username":req_body.username})
     try:
         if info["password"] == req_body.password:
             return {
@@ -69,7 +69,7 @@ async def buyItem(req_body: ItemObject):
         "body": "invalid username"
         }
     try:
-        price = items_db.find_one({'name':req_body.item})["price"]
+        price = items_db.find_one({"name":req_body.item})["price"]
     except:
         return {
         "statusCode":400,
