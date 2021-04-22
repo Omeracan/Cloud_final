@@ -12,7 +12,6 @@ class LoginObject(BaseModel):
 
 
 class  ItemObject(BaseModel):
-    username : str
     item : str
 
 class  addItemObject(BaseModel):
@@ -26,7 +25,7 @@ client = pymongo.MongoClient("mongodb://cloud:cloud123@docdb-2021-04-21-14-50-47
 db = client["myDatabase"]
 users_db = db["users_db"]
 items_db = db["items"]
-
+user = ""
 app = FastAPI()
 
 @app.post("/register")
@@ -43,6 +42,7 @@ async def login(req_body : LoginObject):
     info = users_db.find_one({"username":req_body.username})
     try:
         if info["password"] == req_body.password:
+            user= req_body.username
             return {
             "statusCode":200,
             "body": "Login Successful"
@@ -59,7 +59,7 @@ async def login(req_body : LoginObject):
 
 @app.post("/buyItem")
 async def buyItem(req_body: ItemObject):
-    myquery = { "username": req_body.username }
+    myquery = { "username": user }
     try:
         info = users_db.find_one(myquery)
         cart = info["transaction"]
@@ -97,6 +97,7 @@ async def addItem(req_body: addItemObject):
         "statusCode":200,
         "body": f"add {req_body.name}"
         }
+
 @app.post("/purchase")
 async def purchase(req_body: purchaseObject):
     myquery = { "username": req_body.username }
@@ -131,6 +132,14 @@ async def view():
     return {
         "statusCode":200,
         "body": {"users":users,"items":items}
+        }
+
+@app.get("/logout")
+async def logout():
+    user = ""
+    return {
+        "statusCode":200,
+        "body": user
         }
 
 if __name__ == "__main__":
