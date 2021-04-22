@@ -11,13 +11,14 @@ db = client["myDatabase"]
 col = db["myCollectiontest"]
 
 ##Insert a single document
-col.insert_one({'hello':'Amazon DocumentDB','trans':{"apple":1,"banana":2}})
+# col.insert_one({'hello':'Amazon DocumentDB','trans':{"apple":1,"banana":2}})
 
 ##Find the document that was previously written
 x = col.find_one({'hello':'Amazon DocumentDB'})
 
 ##Print the result to the screen
 print(x)
-
+print(x['trans'])
+print(x['trans']['apple'])
 ##Close the connection
 client.close()
