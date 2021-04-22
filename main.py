@@ -42,6 +42,7 @@ async def login(req_body : LoginObject):
     info = users_db.find_one({"username":req_body.username})
     try:
         if info["password"] == req_body.password:
+            global user
             user= req_body.username
             return {
             "statusCode":200,
