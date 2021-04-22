@@ -136,6 +136,7 @@ async def view():
 
 @app.get("/logout")
 async def logout():
+    print(user)
     user = ""
     return {
         "statusCode":200,
