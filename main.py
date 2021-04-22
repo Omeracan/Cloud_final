@@ -18,8 +18,7 @@ class  addItemObject(BaseModel):
     name : str
     price : int
 
-class purchaseObject(BaseModel):
-    username: str
+
 
 client = pymongo.MongoClient("mongodb://cloud:cloud123@docdb-2021-04-21-14-50-47.cluster-clt7czphqdta.ap-southeast-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false") 
 db = client["myDatabase"]
@@ -100,8 +99,8 @@ async def addItem(req_body: addItemObject):
         }
 
 @app.post("/purchase")
-async def purchase(req_body: purchaseObject):
-    myquery = { "username": req_body.username }
+async def purchase():
+    myquery = { "username": user }
     try:
         info = users_db.find_one(myquery)
         cart = info["transaction"]
