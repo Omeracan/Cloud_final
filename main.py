@@ -120,8 +120,8 @@ async def purchase(req_body: purchaseObject):
         "body": total
         }
 
-@app.post("/view")
-async def view(req_body: purchaseObject):
+@app.get("/view")
+async def view():
     users = []
     items = []
     for user in users_db.find():
