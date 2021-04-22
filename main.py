@@ -5,6 +5,7 @@ import os
 from typing import Optional
 import pymongo
 import sys
+from mail import sendEmail
 
 class LoginObject(BaseModel):
     username : str 
@@ -112,7 +113,7 @@ async def purchase():
     total = 0
     for k,(amount,price) in cart.items():
         total += amount*price
-
+    sendEmail(user,cart,total)
     #CLEAR TRANSACTION
     newvalues = { "$set": { "transaction": {} } }
     users_db.update_one(myquery,newvalues)
