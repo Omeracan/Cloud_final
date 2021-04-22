@@ -30,7 +30,7 @@ items_db = db["items"]
 app = FastAPI()
 
 @app.post("/register")
-async def register(req_body : LoginObject):
+def register(req_body : LoginObject):
     users_db.insert_one({"username":req_body.username,"password":req_body.password,"transaction":{}})
     return {
         "statusCode":200,
@@ -39,7 +39,7 @@ async def register(req_body : LoginObject):
 
 
 @app.post("/login")
-async def login(req_body : LoginObject):
+def login(req_body : LoginObject):
     info = users_db.find_one({"username":req_body.username})
     try:
         if info["password"] == req_body.password:
@@ -58,7 +58,7 @@ async def login(req_body : LoginObject):
         }
 
 @app.post("/buyItem")
-async def buyItem(req_body: ItemObject):
+def buyItem(req_body: ItemObject):
     myquery = { "username": req_body.username }
     try:
         info = users_db.find_one(myquery)
@@ -90,7 +90,7 @@ async def buyItem(req_body: ItemObject):
         }
 
 @app.post("/addItem")
-async def addItem(req_body: addItemObject):
+def addItem(req_body: addItemObject):
     myitem = {"name":req_body.name,"price":req_body.price}
     items_db.insert_one(myitem)
     return {
@@ -98,7 +98,7 @@ async def addItem(req_body: addItemObject):
         "body": f"add {req_body.name}"
         }
 @app.post("/purchase")
-async def purchase(req_body: purchaseObject):
+def purchase(req_body: purchaseObject):
     myquery = { "username": req_body.username }
     try:
         info = users_db.find_one(myquery)
@@ -121,7 +121,7 @@ async def purchase(req_body: purchaseObject):
         }
 
 @app.get("/view")
-async def view():
+def view():
     users = []
     items = []
     for user in users_db.find():
