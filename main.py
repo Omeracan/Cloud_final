@@ -124,7 +124,7 @@ async def purchase(req_body: purchaseObject):
 async def view():
     users = []
     items = []
-    for user in users_db.find({},{ "_id": 0, "name": 1, "price": 1 }):
+    for user in users_db.find({},{ "_id": 0, "username": 1, "password": 1 ,"transaction": 1}):
         users.append(user)
     for item in items_db.find({},{ "_id": 0, "name": 1, "price": 1 }):
         items.append(item)
