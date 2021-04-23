@@ -15,7 +15,7 @@ client = boto3.client('ses',region_name=AWS_REGION)
 def sendEmail(RECIPIENT,cart,total):
     SENDER = "Amazon Gae <Chananvich.p@gmail.com>"
     AWS_REGION = "ap-southeast-1"
-    SUBJECT = "Amazon SES Classic Test (SDK for Python)"
+    SUBJECT = "Amazon Gae Transaction Description"
     CHARSET = "UTF-8"
 
     list_item = [f"{name}\t\t{amount}\t{price}\t{amount*price} \n" for name,(amount,price) in cart.items()]
@@ -32,11 +32,9 @@ def sendEmail(RECIPIENT,cart,total):
     BODY_HTML = """<html>
         <head></head>
         <body>
-        <h1>Amazon SES Classic Test (SDK for Python)</h1>
+        <h1>Amazon Gae Transaction Description</h1>
         <p>This email was sent with
-            <a href='https://aws.amazon.com/ses/'>Amazon SES Classic</a> using the
-            <a href='https://aws.amazon.com/sdk-for-python/'>
-            AWS SDK for Python (Boto)</a>.</p>
+            </p>
         </body>
         </html>
                 """     
