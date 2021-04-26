@@ -33,8 +33,9 @@ app = FastAPI()
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
-    "http://localhost",
+    "http://localhost:3000",
     "http://localhost:8080",
+    "*"
 ]
 
 app.add_middleware(
@@ -55,7 +56,7 @@ async def register(req_body : LoginObject):
 
 
 @app.post("/login")
-async def login(req_body : LoginObject):
+def login(req_body : LoginObject):
     info = users_db.find_one({"username":req_body.username})
     try:
         if info["password"] == req_body.password:
@@ -76,7 +77,7 @@ async def login(req_body : LoginObject):
         }
 
 @app.post("/buyItem")
-async def buyItem(req_body: ItemObject):
+def buyItem(req_body: ItemObject):
     myquery = { "username": user }
     try:
         info = users_db.find_one(myquery)
@@ -117,7 +118,7 @@ async def addItem(req_body: addItemObject):
         }
 
 @app.post("/purchase")
-async def purchase():
+def purchase():
     myquery = { "username": user }
     try:
         info = users_db.find_one(myquery)
@@ -130,10 +131,15 @@ async def purchase():
     total = 0
     for k,(amount,price) in cart.items():
         total += amount*price
-    sendEmail(user,cart,total)
+    print('before send')
+    # sendEmail(user,cart,total)
+    # print('after send')
     #CLEAR TRANSACTION
     newvalues = { "$set": { "transaction": {} } }
+    print(newvalues)
     users_db.update_one(myquery,newvalues)
+    sendEmail(user,cart,total)
+
     return {
         "statusCode":200,
         "body": total
