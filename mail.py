@@ -29,15 +29,56 @@ def sendEmail(RECIPIENT,cart,total):
             f"{total}"
             
     )
+    items_html = ""
+
+    for item,(quantity, price) in cart.items():
+        print(item, quantity, price)
+        item_html = """<tr>
+            <td>{}</td>
+            <td>{}</td>
+            <td>{}บาท</td>
+            <td>{}บาท</td>
+        </tr>""".format(item, quantity, price, quantity*price)
+        items_html+="\n"
+        items_html += item_html
+    total_html = """<tr>
+            <td>{}</td>
+            <td>{}</td>
+            <td>{}</td>
+            <td>{}</td>
+        </tr>""".format("", "", "Total", "{} บาท".format(total))
+    items_html += total_html
     BODY_HTML = """<html>
-        <head></head>
+        <head>
+            <style>
+                table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 30%;
+                }
+
+                td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+                }
+
+                tr:nth-child(even) {
+                background-color: #dddddd;
+                }
+            </style>
+        </head>
         <body>
-        <h1>Amazon Gae Transaction Description</h1>
-        <p>This email was sent with
-            </p>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Amount</th>
+            </tr>"""+ items_html +"""</table>
         </body>
-        </html>
-                """     
+        </html>"""
+    # BODY_HTML = BODY_HTML.format(items_html)
     response = client.send_email(
         Destination={
             'ToAddresses': [
