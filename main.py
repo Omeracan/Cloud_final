@@ -7,6 +7,8 @@ import pymongo
 import sys
 from mail import sendEmail
 from fastapi.middleware.cors import CORSMiddleware
+import boto3 
+from botocore.exceptions import ClientError
 
 
 
@@ -48,7 +50,12 @@ app.add_middleware(
 client_mail = boto3.client('ses',region_name=AWS_REGION)
 @app.post("/register")
 async def register(req_body : LoginObject):
-    users_db.insert_one({"username":req_body.username,"password":req_body.password,"transaction":{}})
+    email = (req_body.username).strip()
+    users_db.insert_one({"username":email,"password":req_body.password,"transaction":{}})
+    try:
+        client_mail.verify_email_identity(EmailAddress=email)
+    except ClientError as e:
+        print(e.response['Error']['Message'])
     return {
         "statusCode":200,
         "body": "Register Successful"
