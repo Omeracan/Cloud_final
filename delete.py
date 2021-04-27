@@ -4,6 +4,9 @@ db = client["myDatabase"]
 users_db = db["users_db"]
 items_db = db["items"]
 
-myquery = { "username": "d.thus_sk135@hotmail.com" }
+myquery = { "username": "d.thus_sk135@hotmail.com\u200b" }
 
-users_db.delete_one(myquery)
+x=users_db.delete_many(myquery)
+
+print(x.deleted_count)
+#print(x)

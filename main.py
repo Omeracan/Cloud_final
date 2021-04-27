@@ -45,10 +45,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+client_mail = boto3.client('ses',region_name=AWS_REGION)
 @app.post("/register")
 async def register(req_body : LoginObject):
     users_db.insert_one({"username":req_body.username,"password":req_body.password,"transaction":{}})
+    client_mail.verify_email_identity(EmailAddress=req_body.username)
     return {
         "statusCode":200,
         "body": "Register Successful"
@@ -146,7 +147,7 @@ def purchase():
         }
 
 @app.get("/view")
-async def view():
+def view():
     users = []
     items = []
     for user in users_db.find({},{ "_id": 0, "username": 1, "password": 1 ,"transaction": 1}):
