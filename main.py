@@ -47,7 +47,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-client_mail = boto3.client('ses',region_name=AWS_REGION)
+client_mail = boto3.client('ses',region_name="ap-southeast-1")
 @app.post("/register")
 async def register(req_body : LoginObject):
     email = (req_body.username).strip()
