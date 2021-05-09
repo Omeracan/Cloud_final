@@ -1,6 +1,7 @@
 import boto3
 from botocore.exceptions import ClientError
 from datetime import datetime
+import json
 
 SENDER = "Amazon Gae <Chananvich.p@gmail.com>"
 AWS_REGION = "ap-southeast-1"
@@ -10,7 +11,8 @@ CHARSET = "UTF-8"
 
 # Create a new SES resource and specify a region.
 client = boto3.client('ses',region_name=AWS_REGION)
-
+with open('map_eng_th.json') as f:
+  map_eng_2_th = json.load(f)
 
 def sendEmail(RECIPIENT,cart,total):
     SENDER = "Amazon Gae <Chananvich.p@gmail.com>"
@@ -38,7 +40,7 @@ def sendEmail(RECIPIENT,cart,total):
             <td>{}</td>
             <td>{}บาท</td>
             <td>{}บาท</td>
-        </tr>""".format(item, quantity, price, quantity*price)
+        </tr>""".format(map_eng_2_th[item], quantity, price, quantity*price)
         items_html+="\n"
         items_html += item_html
     total_html = """<tr>
