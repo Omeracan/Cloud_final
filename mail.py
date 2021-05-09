@@ -6,7 +6,7 @@ import json
 SENDER = "Amazon Gae <Chananvich.p@gmail.com>"
 AWS_REGION = "ap-southeast-1"
 
-SUBJECT = "Amazon SES Classic Test (SDK for Python)"
+SUBJECT = "Amazon Gae Transaction Description"
 CHARSET = "UTF-8"
 
 # Create a new SES resource and specify a region.
@@ -15,10 +15,6 @@ with open('map_eng_th.json') as f:
   map_eng_2_th = json.load(f)
 
 def sendEmail(RECIPIENT,cart,total):
-    SENDER = "Amazon Gae <Chananvich.p@gmail.com>"
-    AWS_REGION = "ap-southeast-1"
-    SUBJECT = "Amazon Gae Transaction Description"
-    CHARSET = "UTF-8"
 
     list_item = [f"{name}\t\t{amount}\t{price}\t{amount*price} \n" for name,(amount,price) in cart.items()]
     list_item = "".join(list_item)
