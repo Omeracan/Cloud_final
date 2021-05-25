@@ -3,7 +3,7 @@ from botocore.exceptions import ClientError
 from datetime import datetime
 import json
 
-SENDER = "Amazon Gae <Chananvich.p@gmail.com>"
+SENDER = "Amazon Gae <your email>"
 AWS_REGION = "ap-southeast-1"
 
 SUBJECT = "Amazon Gae Transaction Description"
